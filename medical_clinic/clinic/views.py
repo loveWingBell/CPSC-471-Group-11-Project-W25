@@ -19,7 +19,7 @@ def home(request):
             messages.success(request, "There Was An Error Logging In, Please Try Again...")
             return redirect('home')
     else:
-        # request.method = GET
+        # request.method = GET form
         return render(request, 'home.html', {})
 
 def logout_user(request):
