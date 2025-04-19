@@ -1,1 +1,11 @@
 # CPSC-471-Group-11-Project-W25
+
+## Intructions
+- Download/Clone the repository
+- Create your branch if you want to make changes
+- To test the login/logout functionality run the server:
+```
+python manage.py runserver
+```
+- Use a browser to go to the homepage http://127.0.0.1:8000/
+- Enter admin for user and CPSC471 for the password
