@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
+from .models import Patient
 
 def home(request):
     return render(request, 'home.html', {})
@@ -23,7 +24,8 @@ def doctor_dashboard(request):
             return redirect('doctor-dashboard')
     else:
         # request.method = GET form
-        return render(request, 'doctor-dashboard.html', {})
+        patients = Patient.objects.all()
+        return render(request, 'doctor-dashboard.html', {'patients':patients})
 
 def patient_dashboard(request):
     if request.method == 'POST':
