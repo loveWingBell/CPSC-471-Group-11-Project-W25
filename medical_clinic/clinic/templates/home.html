@@ -3,16 +3,20 @@
 {% block content %}
     <h1>Home</h1>
 
-    {% if user.is_authenticated %}
-        <h2>User is authenticated</h2>
-    {% else %}
         <div class="row">
             <div class="col-sm-6 mb-3">
             <div class="card">
                 <div class="card-body">
-                <h5 class="card-title">Doctor</h5>
-                <p class="card-text">View patient information and manage appointments</p>
-                <a href="{% url "doctor-dashboard" %}" class="btn btn-secondary">Login</a>
+                    <h5 class="card-title">Doctor</h5>
+                    <p class="card-text">View patient information and manage appointments</p>
+                    <a href="{% url "doctor-dashboard" %}" class="btn btn-secondary">
+                        {% if user.is_authenticated %}
+                            Go Dashboard
+                        {% else %}
+                            Login
+                        {% endif %}
+                    </a>
+
                 </div>
             </div>
             </div>
@@ -21,7 +25,13 @@
                 <div class="card-body">
                 <h5 class="card-title">Patient</h5>
                 <p class="card-text">View medical history and book appointments</p>
-                <a href="{% url "patient-dashboard" %}" class="btn btn-secondary">Login</a>
+                <a href="{% url "patient-dashboard" %}" class="btn btn-secondary">
+                    {% if user.is_authenticated %}
+                        Go Dashboard
+                    {% else %}
+                        Login
+                    {% endif %}
+                </a>
                 </div>
             </div>
             </div>
@@ -30,7 +40,13 @@
                 <div class="card-body">
                 <h5 class="card-title">Lab Technician</h5>
                 <p class="card-text">Record patient samples</p>
-                <a href="{% url "labtechnician-dashboard" %}" class="btn btn-secondary">Login</a>
+                <a href="{% url "labtechnician-dashboard" %}" class="btn btn-secondary">
+                    {% if user.is_authenticated %}
+                        Go Dashboard
+                    {% else %}
+                        Login
+                    {% endif %}
+                </a>
                 </div>
             </div>
             </div>
@@ -39,10 +55,15 @@
                 <div class="card-body">
                 <h5 class="card-title">Pharmacist</h5>
                 <p class="card-text">Create prescriptions</p>
-                <a href="{% url "pharmacist-dashboard" %}" class="btn btn-secondary">Login</a>
+                <a href="{% url "pharmacist-dashboard" %}" class="btn btn-secondary">
+                    {% if user.is_authenticated %}
+                        Go Dashboard
+                    {% else %}
+                        Login
+                    {% endif %}
+                </a>
                 </div>
             </div>
             </div>
         </div>
-    {% endif %}
 {% endblock content %}
