@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from .models import Patient
+from django.views.generic import CreateView
+from .forms import PatientForm
 
 def home(request):
     return render(request, 'home.html', {})
@@ -91,3 +93,8 @@ def logout_user(request):
     logout(request)
     messages.success(request, "You Have Been Logged Out...")
     return redirect('home')
+
+class AddPatientView(CreateView):
+    model = Patient
+    form_class = PatientForm
+    template_name = 'add_patient.html'

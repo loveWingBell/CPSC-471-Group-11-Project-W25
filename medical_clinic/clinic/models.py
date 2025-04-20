@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.urls import reverse
 
 class UserProfile(models.Model):
     """ Common fields for all user profiles """
@@ -23,6 +24,9 @@ class Patient(UserProfile):
 
     def __str__(self):
         return f"Patient: {self.user.first_name} {self.user.last_name}"
+    
+    def get_absolute_url(self):
+        return reverse("doctor-dashboard")
     
 class Doctor(UserProfile):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
