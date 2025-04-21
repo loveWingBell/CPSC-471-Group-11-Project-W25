@@ -10,7 +10,7 @@ python manage.py runserver
 ```
 - Use a browser to go to the homepage http://127.0.0.1:8000/
 - Enter admin for user and CPSC471 for the password
-
+-  
 - Before starting the server, you should run
 ```
 python manage.py migrate
