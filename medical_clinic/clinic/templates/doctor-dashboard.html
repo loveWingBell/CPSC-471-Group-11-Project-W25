@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    {% if user.is_authenticated %}
+        <h2>Doctor Dashboard</h2>
+        <br/>
+        <div class="row">
+            <div class="col-sm-6 mb-3 mb-sm-0">
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title">Patients</h5>
+                  <p class="card-text">View patient info and add new patients</p>
+                  <a href="{% url "patient-list" %}" class="btn btn-secondary">view</a>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title">Appointments</h5>
+                  <p class="card-text">View and manage appointments</p>
+                  <a href="#" class="btn btn-secondary">view</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        
+    {% else %}
+
+        <div class="col-md-6 offset-md-3">
+            <h1>Doctor Login</h1>
+            <br/>
+            
+            <form method="POST" action="{% url 'doctor-dashboard' %}">
+                {% csrf_token %}
+            
+                <div class="mb-3">
+                    <input type="text" class="form-control" name="username", placeholder="Username" required>
+                </div><br/>
+                <div class="mb-3">
+                    <input type="password" class="form-control" name="password", placeholder="Password" required>
+                </div>
+                <br/>
+                <button type="submit" class="btn btn-secondary">Login</button>
+            
+            </form>
+        </div>
+    {% endif %}
+{% endblock content %}

@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.urls import reverse
+from django.utils import timezone
 
 class UserProfile(models.Model):
     """ Common fields for all user profiles """
@@ -23,6 +25,9 @@ class Patient(UserProfile):
 
     def __str__(self):
         return f"Patient: {self.user.first_name} {self.user.last_name}"
+    
+    def get_absolute_url(self):
+        return reverse("patient-list")
     
 class Doctor(UserProfile):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -53,3 +58,13 @@ class Pharmacist(UserProfile):
 
     def __str__(self):
         return f"Pharmacist: {self.user.first_name} {self.user.last_name}"
+
+class Appointment(models.Model):
+    doctor = models.ForeignKey('Doctor', on_delete=models.CASCADE, related_name='appointments')
+    patient = models.ForeignKey('Patient', on_delete=models.CASCADE, related_name='appointments')
+    appointment_datetime = models.DateTimeField(default=timezone.now)
+    reason_for_visit = models.CharField(max_length=255)
+    observations = models.TextField(blank=True, null=True)
+    
+    def __str__(self):
+        return f"Appointment: {self.patient} with Dr. {self.doctor.user.last_name} on {self.appointment_datetime.strftime('%Y-%m-%d %H:%M')}"
