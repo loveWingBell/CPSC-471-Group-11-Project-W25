@@ -69,6 +69,9 @@ class Appointment(models.Model):
     def __str__(self):
         return f"Appointment: {self.patient.user.first_name} with Dr.{self.doctor.user.last_name} on {self.appointment_datetime.strftime('%Y-%m-%d %H:%M')}"
     
+    def get_absolute_url(self):
+        return reverse("appointment-list")
+    
 class Medical_Condition(models.Model):
     condition_name = models.CharField(max_length=30)
     condition_description = models.TextField(blank=True)

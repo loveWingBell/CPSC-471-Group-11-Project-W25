@@ -1,5 +1,5 @@
 from django import forms
-from .models import Patient
+from .models import Patient, Appointment
 
 class PatientForm(forms.ModelForm):
     class Meta:
@@ -33,3 +33,29 @@ class EditPatientForm(forms.ModelForm):
              'user': forms.Select(attrs={'class': 'form-control'}),
              'emergency_contact': forms.TextInput(attrs={'class': 'form-control'})
              }
+
+class DoctorAddAppointmentForm(forms.ModelForm):
+    class Meta:
+        model = Appointment
+        fields = ('patient', 'appointment_datetime', 'reason_for_visit', 'observations')
+        
+        widgets = {
+            #'doctor': forms.Select(attrs={'class': 'form-control'}),
+            'patient': forms.Select(attrs={'class': 'form-control'}),
+            'appointment_datetime': forms.DateTimeInput(attrs={'class': 'form-control'}),
+            'reason_for_visit': forms.TextInput(attrs={'class': 'form-control'}),
+            'observations': forms.Textarea(attrs={'class': 'form-control'}),
+        }
+
+class DoctorUpdateAppointmentForm(forms.ModelForm):
+    class Meta:
+        model = Appointment
+        fields = ('doctor','patient', 'appointment_datetime', 'reason_for_visit', 'observations')
+        
+        widgets = {
+            'doctor': forms.Select(attrs={'class': 'form-control'}),
+            'patient': forms.Select(attrs={'class': 'form-control'}),
+            'appointment_datetime': forms.DateTimeInput(attrs={'class': 'form-control'}),
+            'reason_for_visit': forms.TextInput(attrs={'class': 'form-control'}),
+            'observations': forms.Textarea(attrs={'class': 'form-control'}),
+        }

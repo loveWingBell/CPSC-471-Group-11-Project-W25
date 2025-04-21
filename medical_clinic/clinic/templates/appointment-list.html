@@ -12,6 +12,7 @@
                     <th scope="col">Appointment Date</th>
                     <th scope="col">Reason for Visit</th>
                     <th scope="col">Observations</th>
+                    <th scope="col">Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -23,12 +24,13 @@
                             <td>{{ appointment.appointment_datetime }}</td>
                             <td>{{ appointment.reason_for_visit }}</td>
                             <td>{{ appointment.observations }}</td>
+                            <td><small><a href="{% url "doctor-edit-appointment" appointment.pk %}"> Edit </a> | <a href="#"> Delete </a></small></td>
                         </tr>
                     {% endfor %}
                 {% endif %}
             </tbody>
         </table>
-        <a href="#" class="btn btn-secondary">Add Appointment</a>
+        <a href="{% url "doctor-add-appointment" %}" class="btn btn-secondary">Book Appointment</a>
         <a href="{% url "doctor-dashboard" %}" class="btn btn-secondary">Go Back</a>
 
     {% else %}

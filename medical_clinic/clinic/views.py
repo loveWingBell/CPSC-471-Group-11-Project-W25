@@ -3,7 +3,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from .models import Patient, Appointment, Doctor, Pharmacist, LabTechnician
 from django.views.generic import CreateView, UpdateView, DeleteView
-from .forms import PatientForm, EditPatientForm
+from .forms import PatientForm, EditPatientForm, DoctorAddAppointmentForm, DoctorUpdateAppointmentForm
 
 def home(request):
     return render(request, 'home.html', {})
@@ -119,8 +119,28 @@ def patient_list(request):
 
 def appointment_list(request):
     # request.method = GET form
-    appointments = Appointment.objects.all()
+    # Get the doctor object for the current user
+    doctor = Doctor.objects.get(user_id=request.user.id)
+    appointments = Appointment.objects.filter(doctor=doctor)
     return render(request, 'appointment-list.html', {'appointments':appointments})
+
+class DoctorAddAppointmentView(CreateView):
+    model = Appointment
+    form_class = DoctorAddAppointmentForm
+    template_name = 'doctor-add-appointment.html'
+    success_url = '/appointment-list/'
+
+    def form_valid(self, form):
+        # Set the doctor to the current logged-in doctor
+        doctor = Doctor.objects.get(user_id=self.request.user.id)
+        form.instance.doctor = doctor
+        return super().form_valid(form)
+
+class DoctorUpdateAppointmentView(UpdateView):
+    model = Appointment
+    form_class = DoctorUpdateAppointmentForm
+    template_name = 'doctor-edit-appointment.html'
+
 
 class AddPatientView(CreateView):
     model = Patient
