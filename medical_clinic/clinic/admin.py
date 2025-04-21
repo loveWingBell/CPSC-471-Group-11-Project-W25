@@ -1,5 +1,5 @@
 from django.contrib import admin
-from . models import Doctor, Patient, LabTechnician, Pharmacist, Appointment
+from . models import Doctor, Patient, LabTechnician, Pharmacist, Appointment, Sample
 
 # Customize admin site
 admin.site.site_header = "Medical Clinic Administration"  # Changes the "Django administration" text
@@ -35,3 +35,7 @@ class AppointmentAdmin(admin.ModelAdmin):
     list_display = ['doctor', 'patient', 'appointment_datetime']
     #search_fields = ['healthcare_number', 'license_number', 'years_of_experience']
     #raw_id_fields = ['user']
+
+@admin.register(Sample)
+class SampleAdmin(admin.ModelAdmin):
+    list_display = ['patient', 'sample_type', 'obtained_date', 'technician']

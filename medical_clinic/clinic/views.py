@@ -1,9 +1,9 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from .models import Patient, Appointment, Doctor, Pharmacist, LabTechnician
+from .models import Patient, Appointment, Doctor, Pharmacist, LabTechnician, Sample
 from django.views.generic import CreateView
-from .forms import PatientForm
+from .forms import PatientForm, SampleForm
 
 def home(request):
     return render(request, 'home.html', {})
@@ -122,10 +122,19 @@ def appointment_list(request):
     appointments = Appointment.objects.all()
     return render(request, 'appointment-list.html', {'appointments':appointments})
 
+def sample_list(request):
+    samples = Sample.objects.all()
+    return render(request, 'sample-list.html', {'samples':samples})
+
 class AddPatientView(CreateView):
     model = Patient
     form_class = PatientForm
     template_name = 'add_patient.html'
+
+class AddSampleView(CreateView):
+    model = Sample
+    form_class = SampleForm
+    template_name = 'add_sample.html'
 
 def logout_user(request):
     logout(request)

@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-from .views import AddPatientView
+from .views import AddPatientView, AddSampleView
 
 urlpatterns = [
     path("", views.home, name='home'),
@@ -12,4 +12,6 @@ urlpatterns = [
     path("patient-list/", views.patient_list, name='patient-list'),
     path("appointment-list/", views.appointment_list, name='appointment-list'),
     path("logout/", views.logout_user, name='logout'),
+    path('sample-list/', views.sample_list, name='sample-list'),
+    path('add_sample/', AddSampleView.as_view(), name="add_sample"),
 ]
