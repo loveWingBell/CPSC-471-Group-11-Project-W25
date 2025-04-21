@@ -2,8 +2,8 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from .models import Patient, Appointment, Doctor, Pharmacist, LabTechnician, Sample
-from django.views.generic import CreateView
-from .forms import PatientForm, SampleForm
+from django.views.generic import CreateView, UpdateView, DeleteView
+from .forms import PatientForm, SampleForm, EditPatientForm
 
 def home(request):
     return render(request, 'home.html', {})
@@ -135,6 +135,11 @@ class AddSampleView(CreateView):
     model = Sample
     form_class = SampleForm
     template_name = 'add_sample.html'
+
+class UpdatePatientView(UpdateView):
+    model = Patient
+    form_class = EditPatientForm
+    template_name = 'update-patient.html'
 
 def logout_user(request):
     logout(request)
