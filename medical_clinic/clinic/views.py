@@ -4,6 +4,7 @@ from django.contrib import messages
 from .models import Patient, Appointment, Doctor, Pharmacist, LabTechnician
 from django.views.generic import CreateView, UpdateView, DeleteView
 from .forms import PatientForm, EditPatientForm, DoctorAddAppointmentForm, DoctorUpdateAppointmentForm
+from django.urls import reverse_lazy
 
 def home(request):
     return render(request, 'home.html', {})
@@ -140,6 +141,11 @@ class DoctorUpdateAppointmentView(UpdateView):
     model = Appointment
     form_class = DoctorUpdateAppointmentForm
     template_name = 'doctor-edit-appointment.html'
+
+class DoctorDeleteAppointmentView(DeleteView):
+     model = Appointment
+     template_name = 'doctor-delete-appointment.html'
+     success_url = reverse_lazy('appointment-list')
 
 
 class AddPatientView(CreateView):
