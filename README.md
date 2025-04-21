@@ -14,6 +14,7 @@ python manage.py runserver
 
 - Before starting the server, you should run
 ```
+python manage.py makemigrations
 python manage.py migrate
 ```
 - if you made any change to the code.
