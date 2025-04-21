@@ -9,6 +9,6 @@ urlpatterns = [
     path("pharmacist-dashboard/", views.pharmacist_dashboard, name='pharmacist-dashboard'),
     path("labtechnician-dashboard/", views.labtechnician_dashboard, name='labtechnician-dashboard'),
     path('add_patient/', AddPatientView.as_view(), name="add_patient"),
+    path("patient-list/", views.patient_list, name='patient-list'),
     path("logout/", views.logout_user, name='logout'),
-
 ]

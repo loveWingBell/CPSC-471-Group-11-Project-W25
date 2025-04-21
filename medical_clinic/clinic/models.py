@@ -27,7 +27,7 @@ class Patient(UserProfile):
         return f"Patient: {self.user.first_name} {self.user.last_name}"
     
     def get_absolute_url(self):
-        return reverse("doctor-dashboard")
+        return reverse("patient-list")
     
 class Doctor(UserProfile):
     user = models.OneToOneField(User, on_delete=models.CASCADE)

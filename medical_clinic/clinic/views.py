@@ -26,8 +26,7 @@ def doctor_dashboard(request):
             return redirect('doctor-dashboard')
     else:
         # request.method = GET form
-        patients = Patient.objects.all()
-        return render(request, 'doctor-dashboard.html', {'patients':patients})
+        return render(request, 'doctor-dashboard.html', {})
 
 def patient_dashboard(request):
     if request.method == 'POST':
@@ -89,12 +88,17 @@ def labtechnician_dashboard(request):
         # request.method = GET form
         return render(request, 'labtechnician-dashboard.html', {})
 
-def logout_user(request):
-    logout(request)
-    messages.success(request, "You Have Been Logged Out...")
-    return redirect('home')
+def patient_list(request):
+    # request.method = GET form
+    patients = Patient.objects.all()
+    return render(request, 'patient-list.html', {'patients':patients})
 
 class AddPatientView(CreateView):
     model = Patient
     form_class = PatientForm
     template_name = 'add_patient.html'
+
+def logout_user(request):
+    logout(request)
+    messages.success(request, "You Have Been Logged Out...")
+    return redirect('home')

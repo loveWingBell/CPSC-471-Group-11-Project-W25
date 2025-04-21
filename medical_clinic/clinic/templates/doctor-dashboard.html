@@ -3,41 +3,29 @@
 {% block content %}
 
     {% if user.is_authenticated %}
-        <h2>Patients</h2>
-        <table class="table table-striped table-hover table-bordered table-sm">
-            <thead class="table-success">
-                <tr>
-                    <th scope="col">ID</th>
-                    <th scope="col">Full Name</th>
-                    <th scope="col">Healthcare Number</th>
-                    <th scope="col">Birthday</th>
-                    <th scope="col">Gender</th>
-                    <th scope="col">Insurance</th>
-                    <th scope="col">Phone Number</th>
-                    <th scope="col">Address</th>
-                    <th scope="col">Emergency Contact</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% if patients %}
-                    {% for patient in patients %}
-                        <tr>
-                            <td>{{ patient.id }}</td>
-                            <td>{{ patient.user.first_name }} {{ patient.user.last_name }}</td>
-                            <td>{{ patient.healthcare_number }}</td>
-                            <td>{{ patient.birthday }}</td>
-                            <td>{{ patient.gender }}</td>
-                            <td>{{ patient.insurance }}</td>
-                            <td>{{ patient.phone_number }}</td>
-                            <td>{{ patient.address }}</td>
-                            <td>{{ patient.emergency_contact }}</td>
-                        </tr>
-                    {% endfor %}
-                {% endif %}
-            </tbody>
-        </table>
-        <a href="{% url "add_patient" %}" class="btn btn-secondary">Add Patient</a>
-
+        <h2>Doctor Dashboard</h2>
+        <br/>
+        <div class="row">
+            <div class="col-sm-6 mb-3 mb-sm-0">
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title">Patients</h5>
+                  <p class="card-text">View patient info and add new patients</p>
+                  <a href="{% url "patient-list" %}" class="btn btn-secondary">view</a>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title">Appointments</h5>
+                  <p class="card-text">View and manage appointments</p>
+                  <a href="#" class="btn btn-secondary">view</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        
     {% else %}
 
         <div class="col-md-6 offset-md-3">
