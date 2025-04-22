@@ -1,21 +1,23 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from .models import Patient, Appointment, Doctor, Pharmacist, LabTechnician, Sample, Prescription
+from .models import Patient, Appointment, Doctor, Pharmacist, LabTechnician, Sample, Prescription, Diagnose
 from django.views.generic import CreateView, UpdateView, DeleteView
-from .forms import PatientForm, EditPatientForm, DoctorAddAppointmentForm, DoctorUpdateAppointmentForm, SampleForm, PrescriptionForm
+from .forms import PatientForm, EditPatientForm, DoctorAddAppointmentForm, DoctorUpdateAppointmentForm, SampleForm, PrescriptionForm, DiagnoseForm
 from django.urls import reverse_lazy
 
 userParams = ["doctor", "patient", "lab-technician", "pharmacist"]
 userTypes = [Doctor, Patient, LabTechnician, Pharmacist]
 
-def home(request):
-    userType = "all"
+def getUserType(request):
     if request.user.is_authenticated:
         for i in range(4):
             if userTypes[i].objects.filter(user=request.user) :
-                userType = userParams[i]
-    return render(request, 'home.html', {'userType': userType})
+                return userParams[i]
+    return "all"
+
+def home(request):
+    return render(request, 'home.html', {'userType': getUserType(request)})
 
 def doctor_dashboard(request):
     if request.method == 'POST':
@@ -128,11 +130,6 @@ def labtechnician_dashboard(request):
         # request.method = GET form
         return render(request, 'labtechnician-dashboard.html', {})
 
-def patient_list(request):
-    # request.method = GET form
-    patients = Patient.objects.all()
-    return render(request, 'patient-list.html', {'patients':patients})
-
 def appointment_list(request):
     # request.method = GET form
     # Get the doctor object for the current user
@@ -162,14 +159,10 @@ class DoctorDeleteAppointmentView(DeleteView):
      template_name = 'doctor-delete-appointment.html'
      success_url = reverse_lazy('appointment-list')
 
-
-def sample_list(request):
-    samples = Sample.objects.all()
-    return render(request, 'sample-list.html', {'samples':samples})
-
-def prescription_list(request):
-    prescriptions = Prescription.objects.all()
-    return render(request, 'prescription-list.html', {'prescriptions':prescriptions})
+def patient_list(request):
+    # request.method = GET form
+    patients = Patient.objects.all()
+    return render(request, 'patient-list.html', {'patients':patients})
 
 class AddPatientView(CreateView):
     model = Patient
@@ -181,6 +174,10 @@ class UpdatePatientView(UpdateView):
     form_class = EditPatientForm
     template_name = 'update-patient.html'
 
+def sample_list(request):
+    samples = Sample.objects.all()
+    return render(request, 'sample-list.html', {'samples':samples})
+
 class AddSampleView(CreateView):
     model = Sample
     form_class = SampleForm
@@ -191,6 +188,14 @@ class UpdateSampleView(UpdateView):
     form_class = SampleForm
     template_name = 'update-sample.html'
 
+def prescription_list(request):
+    prescriptions = Prescription.objects.all()
+    return render(request, 'prescription-list.html', {'prescriptions':prescriptions, 'userType':getUserType(request)})
+
+def prescription_list_patient(request):
+    prescription = Prescription.objects.filter(appointment__in=Appointment.objects.filter(patient__in=Patient.objects.filter(user=request.user)))
+    return render(request, 'prescription-list-patient.html', {'prescription':prescription})
+
 class AddPrescriptionView(CreateView):
     model = Prescription
     form_class = PrescriptionForm
@@ -200,6 +205,24 @@ class UpdatePrescriptionView(UpdateView):
     model = Prescription
     form_class = PrescriptionForm
     template_name = 'update-prescription.html'
+
+def diagnose_list(request):
+    diagnoses = Diagnose.objects.all()
+    return render(request, 'diagnose-list.html', {'diagnoses':diagnoses})
+
+def diagnose_list_patient(request):
+    diagnoses = Diagnose.objects.filter(appointment__in=Appointment.objects.filter(patient__in=Patient.objects.filter(user=request.user)))
+    return render(request, 'diagnose-list-patient.html', {'diagnoses':diagnoses})
+
+class AddDiagnoseView(CreateView):
+    model = Diagnose
+    form_class = DiagnoseForm
+    template_name = 'add-diagnose.html'
+
+class UpdateDiagnoseView(UpdateView):
+    model = Diagnose
+    form_class = DiagnoseForm
+    template_name = 'update-diagnose.html'
 
 def logout_user(request):
     logout(request)

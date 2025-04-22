@@ -1,14 +1,14 @@
 {% extends "base.html" %}
 {% block content %}
-    <h1>Add Prescription</h1>
+    <h1>Edit Diagnoses</h1>
     <br/><br/>
     <div class="mb-3">
         <form method="POST">
             {% csrf_token %}
             {{ form.as_p }}
-            <button class="btn btn-secondary">Create</button>
+            <button class="btn btn-secondary">Update</button>
         </form>
     </div>
-    <div onclick="history.back()" class="btn btn-secondary">Cancel</div>
+    <a href="{% url "diagnose-list" %}" class="btn btn-secondary">Cancel</a>
 
 {% endblock content %}

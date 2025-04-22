@@ -15,7 +15,6 @@
                     <th scope="col">Concentration</th>
                     <th scope="col">Instructions</th>
                     <th scope="col">Date Taken by Pharmacist</th>
-                    <th scope="col">Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -30,26 +29,19 @@
                             <td>{{ prescription.concentration }}</td>
                             <td>{{ prescription.instructions }}</td>
                             <td>{{ prescription.created }}</td>
-                            <td><small><a href="{% url 'update-prescription' prescription.pk %}"> Edit </a></small></td>
                         </tr>
                     {% endfor %}
                 {% endif %}
             </tbody>
         </table>
-        <a href="{% url "add-prescription" %}" class="btn btn-secondary">Add Prescription</a>
-        {% if userType == "doctor" %}
-            <a href="{% url "doctor-dashboard" %}" class="btn btn-secondary">Go Back</a>
-        {% elif userType == "lab-technician" %}
-            <a href="{% url "pharmacist-dashboard" %}" class="btn btn-secondary">Go Back</a>
-        {% else %}
-            <div onclick="history.back()" class="btn btn-secondary">Go Back</div>
-        {% endif %}
+        <a href="{% url "patient-dashboard" %}" class="btn btn-secondary">Go Back</a>
+
     {% else %}
 
         <div class="col-md-6 offset-md-3">
             <h1>You Are Not Logged In</h1>
             <br/>
-            <a href="#" class="btn btn-secondary">Go to Login</a>
+            <a href="{% url "patient-dashboard" %}" class="btn btn-secondary">Go to Patient Login</a>
         </div>
     {% endif %}
 {% endblock content %}

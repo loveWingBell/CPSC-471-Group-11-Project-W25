@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-from .views import AddPatientView, UpdatePatientView, DoctorAddAppointmentView, DoctorUpdateAppointmentView, DoctorDeleteAppointmentView, AddSampleView, UpdateSampleView, AddPrescriptionView, UpdatePrescriptionView
+from .views import AddPatientView, UpdatePatientView, DoctorAddAppointmentView, DoctorUpdateAppointmentView, DoctorDeleteAppointmentView, AddSampleView, UpdateSampleView, AddPrescriptionView, UpdatePrescriptionView, AddDiagnoseView, UpdateDiagnoseView
 
 urlpatterns = [
     path("", views.home, name='home'),
@@ -18,7 +18,6 @@ urlpatterns = [
     path('doctor-add-appointment/', DoctorAddAppointmentView.as_view(), name="doctor-add-appointment"),
     path('doctor-appointment/edit/<int:pk>', DoctorUpdateAppointmentView.as_view(), name='doctor-edit-appointment'),
     path('doctor-appointment/<int:pk>/remove', DoctorDeleteAppointmentView.as_view(), name='doctor-delete-appointment'),
-    path("logout/", views.logout_user, name='logout'),
 
     path('sample-list/', views.sample_list, name='sample-list'),
     path('add-sample/', AddSampleView.as_view(), name="add-sample"),
@@ -26,5 +25,15 @@ urlpatterns = [
 
     path('prescription-list/', views.prescription_list, name='prescription-list'),
     path('add-prescription/', AddPrescriptionView.as_view(), name="add-prescription"),
-    path('prescription/edit/<int:pk>', UpdatePrescriptionView.as_view(), name='update-prescription')
+    path('prescription/edit/<int:pk>', UpdatePrescriptionView.as_view(), name='update-prescription'),
+
+    path('prescription-list-patient/', views.prescription_list_patient, name='prescription-list-patient'),
+
+    path('diagnose-list/', views.diagnose_list, name='diagnose-list'),
+    path('add-diagnose/', AddDiagnoseView.as_view(), name="add-diagnose"),
+    path('diagnose/edit/<int:pk>', UpdateDiagnoseView.as_view(), name='update-diagnose'),
+
+    path('diagnose-list-patient/', views.diagnose_list_patient, name='diagnose-list-patient'),
+
+    path("logout/", views.logout_user, name='logout')
 ]

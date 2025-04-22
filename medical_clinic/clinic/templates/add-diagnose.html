@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
-    <h1>Add Prescription</h1>
+    <h1>Diagnose Condition</h1>
     <br/><br/>
     <div class="mb-3">
         <form method="POST">
@@ -9,6 +9,6 @@
             <button class="btn btn-secondary">Create</button>
         </form>
     </div>
-    <div onclick="history.back()" class="btn btn-secondary">Cancel</div>
+    <a href="{% url "diagnose-list" %}" class="btn btn-secondary">Cancel</a>
 
 {% endblock content %}

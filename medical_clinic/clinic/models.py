@@ -84,6 +84,9 @@ class Diagnose(models.Model):
     condition = models.ForeignKey(Medical_Condition, on_delete=models.CASCADE)
     status_now = models.BooleanField(default=True)
 
+    def get_absolute_url(self):
+        return reverse("diagnose-list")
+
     def __str__(self):
         return f"{self.appointment.patient.user.first_name} was diagnosed with {self.condition.condition_name} by Dr.{self.appointment.doctor.user.last_name} on {self.appointment.appointment_datetime.strftime('%Y-%m-%d %H:%M')}\nCurrent Status:{"Still  possess" if self.status_now else "No longer possess"}"
     

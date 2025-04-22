@@ -1,5 +1,5 @@
 from django import forms
-from .models import Patient, Appointment, Sample, Prescription
+from .models import Patient, Appointment, Sample, Prescription, Diagnose
 
 class PatientForm(forms.ModelForm):
     class Meta:
@@ -86,4 +86,15 @@ class PrescriptionForm(forms.ModelForm):
             'concentration': forms.NumberInput(attrs={'class': 'form-control'}),
             'instructions': forms.Select(attrs={'class': 'form-control'}),
             'created': forms.DateInput(attrs={'class': 'form-control'})
+        }
+
+class DiagnoseForm(forms.ModelForm):
+    class Meta:
+        model = Diagnose
+        fields = ('appointment', 'condition', 'status_now')
+        
+        widgets = {
+            'appointment': forms.Select(attrs={'class': 'form-control'}),
+            'condition': forms.Select(attrs={'class': 'form-control'}),
+            'status_now': forms.NullBooleanSelect(attrs={'class': 'form-control'})
         }
