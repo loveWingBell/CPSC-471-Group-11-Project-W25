@@ -72,3 +72,16 @@ class PatientAddAppointmentForm(forms.ModelForm):
             'reason_for_visit': forms.TextInput(attrs={'class': 'form-control'}),
             'observations': forms.Textarea(attrs={'class': 'form-control'}),
         }
+
+class PatientUpdateAppointmentForm(forms.ModelForm):
+    class Meta:
+        model = Appointment
+        fields = ('doctor', 'appointment_datetime', 'reason_for_visit', 'observations')
+        
+        widgets = {
+            'doctor': forms.Select(attrs={'class': 'form-control'}),
+            #'patient': forms.Select(attrs={'class': 'form-control'}),
+            'appointment_datetime': forms.DateTimeInput(attrs={'class': 'form-control'}),
+            'reason_for_visit': forms.TextInput(attrs={'class': 'form-control'}),
+            'observations': forms.Textarea(attrs={'class': 'form-control'}),
+        }

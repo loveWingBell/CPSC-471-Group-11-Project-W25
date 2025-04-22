@@ -4,7 +4,7 @@ from django.contrib import messages
 from .models import Patient, Appointment, Doctor, Pharmacist, LabTechnician
 from django.views.generic import CreateView, UpdateView, DeleteView
 from .forms import PatientForm, EditPatientForm, DoctorAddAppointmentForm, DoctorUpdateAppointmentForm
-from .forms import PatientAddAppointmentForm
+from .forms import PatientAddAppointmentForm, PatientUpdateAppointmentForm
 from django.urls import reverse_lazy
 from django.urls import reverse
 
@@ -84,6 +84,25 @@ class PatientAddAppointmentView(CreateView):
          patient = Patient.objects.get(user_id=self.request.user.id)
          form.instance.patient = patient
          return super().form_valid(form)
+    
+class PatientUpdateAppointmentView(UpdateView):
+    model = Appointment
+    form_class = PatientUpdateAppointmentForm
+    template_name = 'patient-edit-appointment.html'
+
+    def get_success_url(self):
+        return reverse('patient-appointment-list')
+    
+    def form_valid(self, form):
+         # Set the patient to the current logged-in patient
+         patient = Patient.objects.get(user_id=self.request.user.id)
+         form.instance.patient = patient
+         return super().form_valid(form)
+
+class PatientDeleteAppointmentView(DeleteView):
+    model = Appointment
+    template_name = 'patient-delete-appointment.html'
+    success_url = reverse_lazy('patient-appointment-list')
     
 def pharmacist_dashboard(request):
     if request.method == 'POST':
