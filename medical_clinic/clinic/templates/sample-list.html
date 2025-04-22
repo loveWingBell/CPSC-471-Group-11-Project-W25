@@ -11,6 +11,7 @@
                     <th scope="col">Sample Type</th>
                     <th scope="col">Obtained Date</th>
                     <th scope="col">Lab Technician</th>
+                    <th scope="col">Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -21,12 +22,13 @@
                             <td>{{ sample.sample_type }}</td>
                             <td>{{ sample.obtained_date }}</td>
                             <td>{{ sample.technician.user.first_name }}</td>
+                            <td><small><a href="{% url 'update-sample' sample.pk %}"> Edit </a></small></td>
                         </tr>
                     {% endfor %}
                 {% endif %}
             </tbody>
         </table>
-        <a href="{% url "add_sample" %}" class="btn btn-secondary">Add Sample</a>
+        <a href="{% url "add-sample" %}" class="btn btn-secondary">Add Sample</a>
         <a href="{% url "labtechnician-dashboard" %}" class="btn btn-secondary">Go Back</a>
 
     {% else %}

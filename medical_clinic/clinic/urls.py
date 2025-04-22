@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-from .views import AddPatientView, AddSampleView, UpdatePatientView
+from .views import AddPatientView, UpdatePatientView, AddSampleView, UpdateSampleView, AddPrescriptionView, UpdatePrescriptionView
 
 urlpatterns = [
     path("", views.home, name='home'),
@@ -8,11 +8,19 @@ urlpatterns = [
     path("patient-dashboard/", views.patient_dashboard, name='patient-dashboard'),
     path("pharmacist-dashboard/", views.pharmacist_dashboard, name='pharmacist-dashboard'),
     path("labtechnician-dashboard/", views.labtechnician_dashboard, name='labtechnician-dashboard'),
+
+    path("patient-list/", views.patient_list, name='patient-list'),
     path('add_patient/', AddPatientView.as_view(), name="add_patient"),
     path('patient/edit/<int:pk>', UpdatePatientView.as_view(), name='update-patient'),
-    path("patient-list/", views.patient_list, name='patient-list'),
+
     path("appointment-list/", views.appointment_list, name='appointment-list'),
     path("logout/", views.logout_user, name='logout'),
+
     path('sample-list/', views.sample_list, name='sample-list'),
-    path('add_sample/', AddSampleView.as_view(), name="add_sample"),
+    path('add-sample/', AddSampleView.as_view(), name="add-sample"),
+    path('sample/edit/<int:pk>', UpdateSampleView.as_view(), name='update-sample'),
+
+    path('prescription-list/', views.prescription_list, name='prescription-list'),
+    path('add-prescription/', AddPrescriptionView.as_view(), name="add-prescription"),
+    path('prescription/edit/<int:pk>', UpdatePrescriptionView.as_view(), name='update-prescription')
 ]

@@ -113,6 +113,9 @@ class Prescription(models.Model):
     instructions = models.TextField(blank=True)
     created = models.DateField(blank=True, null=True)
 
+    def get_absolute_url(self):
+        return reverse("prescription-list")
+
     def __str__(self):
         return f"This prescription for {self.appointment.patient.user.first_name} was written by Dr.{self.appointment.patient.user.last_name}.\nPill: {self.pill.pill_name}, Count: {self.pill_count}, Refills: {self.pill_refills}, Concentration: {self.concentration} mg\n{f"Instructions: {self.instructions}\n" if self.instructions else ""}{f"Prescription taken by {self.pharmacist.user.first_name} on {self.created.strftime('%Y-%m-%d')}" if self.pharmacist else "This prescription has not been taken by a pharmacist yet."}"
 

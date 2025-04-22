@@ -1,9 +1,9 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from .models import Patient, Appointment, Doctor, Pharmacist, LabTechnician, Sample
+from .models import Patient, Appointment, Doctor, Pharmacist, LabTechnician, Sample, Prescription
 from django.views.generic import CreateView, UpdateView, DeleteView
-from .forms import PatientForm, SampleForm, EditPatientForm
+from .forms import PatientForm, EditPatientForm, SampleForm, PrescriptionForm
 
 def home(request):
     return render(request, 'home.html', {})
@@ -126,20 +126,39 @@ def sample_list(request):
     samples = Sample.objects.all()
     return render(request, 'sample-list.html', {'samples':samples})
 
+def prescription_list(request):
+    prescriptions = Prescription.objects.all()
+    return render(request, 'prescription-list.html', {'prescriptions':prescriptions})
+
 class AddPatientView(CreateView):
     model = Patient
     form_class = PatientForm
     template_name = 'add_patient.html'
 
-class AddSampleView(CreateView):
-    model = Sample
-    form_class = SampleForm
-    template_name = 'add_sample.html'
-
 class UpdatePatientView(UpdateView):
     model = Patient
     form_class = EditPatientForm
     template_name = 'update-patient.html'
+
+class AddSampleView(CreateView):
+    model = Sample
+    form_class = SampleForm
+    template_name = 'add-sample.html'
+
+class UpdateSampleView(UpdateView):
+    model = Sample
+    form_class = SampleForm
+    template_name = 'update-sample.html'
+
+class AddPrescriptionView(CreateView):
+    model = Prescription
+    form_class = PrescriptionForm
+    template_name = 'add-prescription.html'
+
+class UpdatePrescriptionView(UpdateView):
+    model = Prescription
+    form_class = PrescriptionForm
+    template_name = 'update-prescription.html'
 
 def logout_user(request):
     logout(request)

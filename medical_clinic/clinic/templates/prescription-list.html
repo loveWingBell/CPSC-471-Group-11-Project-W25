@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    {% if user.is_authenticated %}
+        <h2>Prescriptions</h2>
+        <table class="table table-striped table-hover table-bordered table-sm">
+            <thead class="table-success">
+                <tr> 
+                    <th scope="col">Appointment</th>
+                    <th scope="col">Pill</th>
+                    <th scope="col">Taken by Pharmacist</th>
+                    <th scope="col">Pill Count</th>
+                    <th scope="col">Refills</th>
+                    <th scope="col">Concentration</th>
+                    <th scope="col">Instructions</th>
+                    <th scope="col">Date Taken by Pharmacist</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if prescriptions %}
+                    {% for prescription in prescriptions %}
+                        <tr>
+                            <td>{{ prescription.appointment.patient.user.first_name }}, Dr.{{ prescription.appointment.doctor.user.last_name }}, {{ prescription.appointment.appointment_datetime }}</td>
+                            <td>{{ prescription.pill.pill_name }}</td>
+                            <td>{{ prescription.pharmacist.user.first_name }}</td>
+                            <td>{{ prescription.pill_count }}</td>
+                            <td>{{ prescription.pill_refills }}</td>
+                            <td>{{ prescription.concentration }}</td>
+                            <td>{{ prescription.instructions }}</td>
+                            <td>{{ prescription.created }}</td>
+                            <td><small><a href="{% url 'update-prescription' prescription.pk %}"> Edit </a></small></td>
+                        </tr>
+                    {% endfor %}
+                {% endif %}
+            </tbody>
+        </table>
+        <a href="{% url "add-prescription" %}" class="btn btn-secondary">Add Prescription</a>
+        <a href="{% url "pharmacist-dashboard" %}" class="btn btn-secondary">Go Back</a>
+
+    {% else %}
+
+        <div class="col-md-6 offset-md-3">
+            <h1>You Are Not Logged In</h1>
+            <br/>
+            <a href="{% url "pharmacist-dashboard" %}" class="btn btn-secondary">Go to Pharmacist Login</a>
+        </div>
+    {% endif %}
+{% endblock content %}
