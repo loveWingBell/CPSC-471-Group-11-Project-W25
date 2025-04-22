@@ -100,7 +100,7 @@ class Sample(models.Model):
         return reverse("sample-list")
 
     def __str__(self):
-        return f"This {self.sample_type} sample came from {self.patient.user.first_name} on {self.obtained_date.strftime('%Y-%m-%d %H:%M')}. {f"Tested by {self.techician.user.first_name}." if self.technician else "The sample has not been tested yet."}"
+        return f"This {self.sample_type} sample came from {self.patient.user.first_name} on {self.obtained_date.strftime('%Y-%m-%d %H:%M')}. {f"Tested by {self.technician.user.first_name}." if self.technician else "The sample has not been tested yet."}"
     
 class Pill(models.Model):
     pill_name = models.CharField(max_length=30)
