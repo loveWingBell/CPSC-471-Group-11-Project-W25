@@ -4,7 +4,9 @@ from django.contrib import messages
 from .models import Patient, Appointment, Doctor, Pharmacist, LabTechnician
 from django.views.generic import CreateView, UpdateView, DeleteView
 from .forms import PatientForm, EditPatientForm, DoctorAddAppointmentForm, DoctorUpdateAppointmentForm
+from .forms import PatientAddAppointmentForm
 from django.urls import reverse_lazy
+from django.urls import reverse
 
 def home(request):
     return render(request, 'home.html', {})
@@ -67,6 +69,21 @@ def patient_appointment_list(request):
     patient = Patient.objects.get(user_id=request.user.id)
     appointments = Appointment.objects.filter(patient=patient)
     return render(request, 'patient-appointment-list.html', {'appointments':appointments})
+
+class PatientAddAppointmentView(CreateView):
+    model = Appointment
+    form_class = PatientAddAppointmentForm
+    template_name = 'patient-add-appointment.html'
+
+    def get_success_url(self):
+        return reverse('patient-appointment-list')
+    # success_url = '/appointment-list/'
+
+    def form_valid(self, form):
+         # Set the patient to the current logged-in patient
+         patient = Patient.objects.get(user_id=self.request.user.id)
+         form.instance.patient = patient
+         return super().form_valid(form)
     
 def pharmacist_dashboard(request):
     if request.method == 'POST':
@@ -136,18 +153,25 @@ class DoctorAddAppointmentView(CreateView):
     model = Appointment
     form_class = DoctorAddAppointmentForm
     template_name = 'doctor-add-appointment.html'
-    success_url = '/appointment-list/'
+    #success_url = '/appointment-list/'
 
     def form_valid(self, form):
         # Set the doctor to the current logged-in doctor
         doctor = Doctor.objects.get(user_id=self.request.user.id)
         form.instance.doctor = doctor
         return super().form_valid(form)
+    
+    def get_success_url(self):
+        return reverse('appointment-list')
 
 class DoctorUpdateAppointmentView(UpdateView):
     model = Appointment
     form_class = DoctorUpdateAppointmentForm
     template_name = 'doctor-edit-appointment.html'
+
+    def get_success_url(self):
+        return reverse('appointment-list')
+    
 
 class DoctorDeleteAppointmentView(DeleteView):
      model = Appointment

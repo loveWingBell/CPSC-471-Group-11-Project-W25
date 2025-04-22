@@ -30,7 +30,7 @@
                 {% endif %}
             </tbody>
         </table>
-        <a href="#" class="btn btn-secondary">Book Appointment</a>
+        <a href="{% url "patient-add-appointment" %}" class="btn btn-secondary">Book Appointment</a>
         <a href="{% url "patient-dashboard" %}" class="btn btn-secondary">Go Back</a>
 
     {% else %}
