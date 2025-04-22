@@ -6,8 +6,16 @@ from django.views.generic import CreateView, UpdateView, DeleteView
 from .forms import PatientForm, EditPatientForm, DoctorAddAppointmentForm, DoctorUpdateAppointmentForm, SampleForm, PrescriptionForm
 from django.urls import reverse_lazy
 
+userParams = ["doctor", "patient", "lab-technician", "pharmacist"]
+userTypes = [Doctor, Patient, LabTechnician, Pharmacist]
+
 def home(request):
-    return render(request, 'home.html', {})
+    userType = "all"
+    if request.user.is_authenticated:
+        for i in range(4):
+            if userTypes[i].objects.filter(user=request.user) :
+                userType = userParams[i]
+    return render(request, 'home.html', {'userType': userType})
 
 def doctor_dashboard(request):
     if request.method == 'POST':
