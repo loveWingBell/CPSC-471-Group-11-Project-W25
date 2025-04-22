@@ -1,12 +1,16 @@
 from django.urls import path
 from . import views
-from .views import AddPatientView, UpdatePatientView, DoctorAddAppointmentView, DoctorUpdateAppointmentView, DoctorDeleteAppointmentView, AddSampleView, UpdateSampleView, AddPrescriptionView, UpdatePrescriptionView, AddDiagnoseView, UpdateDiagnoseView
+from .views import AddPatientView, UpdatePatientView, DoctorAddAppointmentView, DoctorUpdateAppointmentView
+from .views import DoctorDeleteAppointmentView, PatientAddAppointmentView, PatientUpdateAppointmentView, PatientDeleteAppointmentView, AddSampleView, UpdateSampleView, AddPrescriptionView, UpdatePrescriptionView, AddDiagnoseView, UpdateDiagnoseView
 
 urlpatterns = [
     path("", views.home, name='home'),
     path("doctor-dashboard/", views.doctor_dashboard, name='doctor-dashboard'),
     path("patient-dashboard/", views.patient_dashboard, name='patient-dashboard'),
     path("patient-appointment-list/", views.patient_appointment_list, name='patient-appointment-list'),
+    path('patient-add-appointment/', PatientAddAppointmentView.as_view(), name="patient-add-appointment"),
+    path('patient-appointment/edit/<int:pk>', PatientUpdateAppointmentView.as_view(), name='patient-edit-appointment'),
+    path('patient-appointment/<int:pk>/remove', PatientDeleteAppointmentView.as_view(), name='patient-delete-appointment'),
     path("pharmacist-dashboard/", views.pharmacist_dashboard, name='pharmacist-dashboard'),
     path("labtechnician-dashboard/", views.labtechnician_dashboard, name='labtechnician-dashboard'),
 

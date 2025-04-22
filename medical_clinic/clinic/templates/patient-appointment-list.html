@@ -24,13 +24,13 @@
                             <td>{{ appointment.appointment_datetime }}</td>
                             <td>{{ appointment.reason_for_visit }}</td>
                             <td>{{ appointment.observations }}</td>
-                            <td><small><a href="#"> Edit </a> | <a href="#"> Delete </a></small></td>
+                            <td><small><a href="{% url "patient-edit-appointment" appointment.pk %}"> Edit </a> | <a href="{% url "patient-delete-appointment" appointment.pk %}"> Delete </a></small></td>
                         </tr>
                     {% endfor %}
                 {% endif %}
             </tbody>
         </table>
-        <a href="#" class="btn btn-secondary">Book Appointment</a>
+        <a href="{% url "patient-add-appointment" %}" class="btn btn-secondary">Book Appointment</a>
         <a href="{% url "patient-dashboard" %}" class="btn btn-secondary">Go Back</a>
 
     {% else %}

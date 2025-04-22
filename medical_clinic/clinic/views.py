@@ -4,7 +4,19 @@ from django.contrib import messages
 from .models import Patient, Appointment, Doctor, Pharmacist, LabTechnician, Sample, Prescription, Diagnose
 from django.views.generic import CreateView, UpdateView, DeleteView
 from .forms import PatientForm, EditPatientForm, DoctorAddAppointmentForm, DoctorUpdateAppointmentForm, SampleForm, PrescriptionForm, DiagnoseForm
+from .forms import PatientAddAppointmentForm, PatientUpdateAppointmentForm
 from django.urls import reverse_lazy
+from django.urls import reverse
+
+userParams = ["doctor", "patient", "lab-technician", "pharmacist"]
+userTypes = [Doctor, Patient, LabTechnician, Pharmacist]
+
+def getUserType(request):
+    if request.user.is_authenticated:
+        for i in range(4):
+            if userTypes[i].objects.filter(user=request.user) :
+                return userParams[i]
+    return "all"
 
 userParams = ["doctor", "patient", "lab-technician", "pharmacist"]
 userTypes = [Doctor, Patient, LabTechnician, Pharmacist]
@@ -77,6 +89,40 @@ def patient_appointment_list(request):
     patient = Patient.objects.get(user_id=request.user.id)
     appointments = Appointment.objects.filter(patient=patient)
     return render(request, 'patient-appointment-list.html', {'appointments':appointments})
+
+class PatientAddAppointmentView(CreateView):
+    model = Appointment
+    form_class = PatientAddAppointmentForm
+    template_name = 'patient-add-appointment.html'
+
+    def get_success_url(self):
+        return reverse('patient-appointment-list')
+    # success_url = '/appointment-list/'
+
+    def form_valid(self, form):
+         # Set the patient to the current logged-in patient
+         patient = Patient.objects.get(user_id=self.request.user.id)
+         form.instance.patient = patient
+         return super().form_valid(form)
+    
+class PatientUpdateAppointmentView(UpdateView):
+    model = Appointment
+    form_class = PatientUpdateAppointmentForm
+    template_name = 'patient-edit-appointment.html'
+
+    def get_success_url(self):
+        return reverse('patient-appointment-list')
+    
+    def form_valid(self, form):
+         # Set the patient to the current logged-in patient
+         patient = Patient.objects.get(user_id=self.request.user.id)
+         form.instance.patient = patient
+         return super().form_valid(form)
+
+class PatientDeleteAppointmentView(DeleteView):
+    model = Appointment
+    template_name = 'patient-delete-appointment.html'
+    success_url = reverse_lazy('patient-appointment-list')
     
 def pharmacist_dashboard(request):
     if request.method == 'POST':
@@ -141,18 +187,25 @@ class DoctorAddAppointmentView(CreateView):
     model = Appointment
     form_class = DoctorAddAppointmentForm
     template_name = 'doctor-add-appointment.html'
-    success_url = '/appointment-list/'
+    #success_url = '/appointment-list/'
 
     def form_valid(self, form):
         # Set the doctor to the current logged-in doctor
         doctor = Doctor.objects.get(user_id=self.request.user.id)
         form.instance.doctor = doctor
         return super().form_valid(form)
+    
+    def get_success_url(self):
+        return reverse('appointment-list')
 
 class DoctorUpdateAppointmentView(UpdateView):
     model = Appointment
     form_class = DoctorUpdateAppointmentForm
     template_name = 'doctor-edit-appointment.html'
+
+    def get_success_url(self):
+        return reverse('appointment-list')
+    
 
 class DoctorDeleteAppointmentView(DeleteView):
      model = Appointment
