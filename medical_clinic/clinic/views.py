@@ -245,9 +245,13 @@ def prescription_list(request):
     prescriptions = Prescription.objects.all()
     return render(request, 'prescription-list.html', {'prescriptions':prescriptions, 'userType':getUserType(request)})
 
+def prescription_list_doctor(request):
+    prescriptions = Prescription.objects.filter(appointment__in=Appointment.objects.filter(doctor__in=Doctor.objects.filter(user=request.user)))
+    return render(request, 'prescription-list.html', {'prescriptions':prescriptions, 'userType':getUserType(request)})
+
 def prescription_list_patient(request):
-    prescription = Prescription.objects.filter(appointment__in=Appointment.objects.filter(patient__in=Patient.objects.filter(user=request.user)))
-    return render(request, 'prescription-list-patient.html', {'prescription':prescription})
+    prescriptions = Prescription.objects.filter(appointment__in=Appointment.objects.filter(patient__in=Patient.objects.filter(user=request.user)))
+    return render(request, 'prescription-list-patient.html', {'prescriptions':prescriptions})
 
 class AddPrescriptionView(CreateView):
     model = Prescription
@@ -260,7 +264,7 @@ class UpdatePrescriptionView(UpdateView):
     template_name = 'update-prescription.html'
 
 def diagnose_list(request):
-    diagnoses = Diagnose.objects.all()
+    diagnoses = Diagnose.objects.filter(appointment__in=Appointment.objects.filter(doctor__in=Doctor.objects.filter(user=request.user)))
     return render(request, 'diagnose-list.html', {'diagnoses':diagnoses})
 
 def diagnose_list_patient(request):
