@@ -3,8 +3,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from .models import Patient, Appointment, Doctor, Pharmacist, LabTechnician, Sample, Prescription
 from django.views.generic import CreateView, UpdateView, DeleteView
-from .forms import PatientForm, EditPatientForm, DoctorAddAppointmentForm, DoctorUpdateAppointmentForm
-from django.urls import reverse_lazy, SampleForm, PrescriptionForm
+from .forms import PatientForm, EditPatientForm, DoctorAddAppointmentForm, DoctorUpdateAppointmentForm, SampleForm, PrescriptionForm
+from django.urls import reverse_lazy
 
 def home(request):
     return render(request, 'home.html', {})
