@@ -3,7 +3,28 @@
 {% block content %}
 
     {% if user.is_authenticated %}
-        <h2>Hello {{ user }}</h2>
+        <h2>Patient Dashboard</h2>
+        <br/>
+        <div class="row">
+            <div class="col-sm-6 mb-3 mb-sm-0">
+            <div class="card">
+                <div class="card-body">
+                <h5 class="card-title">Appointments</h5>
+                <p class="card-text">View and book appointments</p>
+                <a href="{% url "patient-appointment-list" %}" class="btn btn-secondary">view</a>
+                </div>
+            </div>
+            </div>
+            <div class="col-sm-6">
+            <div class="card">
+                <div class="card-body">
+                <h5 class="card-title">Medical History</h5>
+                <p class="card-text">View patient medical info</p>
+                <a href="#" class="btn btn-secondary">view</a>
+                </div>
+            </div>
+            </div>
+        </div>
     {% else %}
 
         <div class="col-md-6 offset-md-3">

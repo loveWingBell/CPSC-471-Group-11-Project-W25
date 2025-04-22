@@ -6,6 +6,7 @@ urlpatterns = [
     path("", views.home, name='home'),
     path("doctor-dashboard/", views.doctor_dashboard, name='doctor-dashboard'),
     path("patient-dashboard/", views.patient_dashboard, name='patient-dashboard'),
+    path("patient-appointment-list/", views.patient_appointment_list, name='patient-appointment-list'),
     path("pharmacist-dashboard/", views.pharmacist_dashboard, name='pharmacist-dashboard'),
     path("labtechnician-dashboard/", views.labtechnician_dashboard, name='labtechnician-dashboard'),
     path('add_patient/', AddPatientView.as_view(), name="add_patient"),
