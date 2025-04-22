@@ -68,6 +68,13 @@ def patient_dashboard(request):
     else:
         # request.method = GET form
         return render(request, 'patient-dashboard.html', {})
+
+def patient_appointment_list(request):
+    # request.method = GET form
+    # Get the doctor object for the current user
+    patient = Patient.objects.get(user_id=request.user.id)
+    appointments = Appointment.objects.filter(patient=patient)
+    return render(request, 'patient-appointment-list.html', {'appointments':appointments})
     
 def pharmacist_dashboard(request):
     if request.method == 'POST':
