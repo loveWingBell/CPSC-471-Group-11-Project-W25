@@ -3,7 +3,20 @@
 {% block content %}
 
     {% if user.is_authenticated %}
-        <h2>Hello {{ user }}</h2>
+        <h2>Lab Technician Dashboard</h2>
+        <br/>
+        <div class="row">
+            <div class="col-sm-6 mb-3 mb-sm-0">
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title">Samples</h5>
+                  <p class="card-text">View sample info, create samples, and update sample info</p>
+                  <a href="{% url "sample-list" %}" class="btn btn-secondary">view</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        
     {% else %}
 
         <div class="col-md-6 offset-md-3">

@@ -84,6 +84,9 @@ class Diagnose(models.Model):
     condition = models.ForeignKey(Medical_Condition, on_delete=models.CASCADE)
     status_now = models.BooleanField(default=True)
 
+    def get_absolute_url(self):
+        return reverse("diagnose-list")
+
     def __str__(self):
         return f"{self.appointment.patient.user.first_name} was diagnosed with {self.condition.condition_name} by Dr.{self.appointment.doctor.user.last_name} on {self.appointment.appointment_datetime.strftime('%Y-%m-%d %H:%M')}\nCurrent Status:{"Still  possess" if self.status_now else "No longer possess"}"
     
@@ -92,6 +95,9 @@ class Sample(models.Model):
     sample_type = models.CharField(max_length=5, choices=[('U', 'Urine'), ('B', 'Blood')])
     obtained_date = models.DateTimeField(default=timezone.now)
     technician = models.ForeignKey(LabTechnician, on_delete=models.SET_NULL, blank=True, null=True)
+
+    def get_absolute_url(self):
+        return reverse("sample-list")
 
     def __str__(self):
         return f"This {self.sample_type} sample came from {self.patient.user.first_name} on {self.obtained_date.strftime('%Y-%m-%d %H:%M')}. {f"Tested by {self.techician.user.first_name}." if self.technician else "The sample has not been tested yet."}"
@@ -112,6 +118,9 @@ class Prescription(models.Model):
     concentration = models.PositiveSmallIntegerField(default=20)
     instructions = models.TextField(blank=True)
     created = models.DateField(blank=True, null=True)
+
+    def get_absolute_url(self):
+        return reverse("prescription-list")
 
     def __str__(self):
         return f"This prescription for {self.appointment.patient.user.first_name} was written by Dr.{self.appointment.patient.user.last_name}.\nPill: {self.pill.pill_name}, Count: {self.pill_count}, Refills: {self.pill_refills}, Concentration: {self.concentration} mg\n{f"Instructions: {self.instructions}\n" if self.instructions else ""}{f"Prescription taken by {self.pharmacist.user.first_name} on {self.created.strftime('%Y-%m-%d')}" if self.pharmacist else "This prescription has not been taken by a pharmacist yet."}"
